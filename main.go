@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/osagemo/advent-of-go-21/puzzles"
 )
@@ -15,9 +16,12 @@ func main() {
 }
 
 func printPuzzle(d puzzles.Day) {
+	start := time.Now()
 	fmt.Println(d.GetPuzzleName())
 	fmt.Printf("Part One: %s\n", d.PartOne())
 	fmt.Printf("Part Two: %s\n", d.PartTwo())
+	elapsed := time.Since(start)
+	fmt.Printf("Time elapsed: %s\n", elapsed)
 	fmt.Println()
 }
 
