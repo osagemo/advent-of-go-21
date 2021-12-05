@@ -7,7 +7,7 @@ import (
 )
 
 type DayThree struct {
-	base  day
+	day
 	zeros [12]int
 	ones  [12]int
 }
@@ -67,7 +67,7 @@ func (d *DayThree) getCO2ScrubberRating() string {
 }
 
 func (d *DayThree) findValue(highest bool) string {
-	var consideredLines = d.base.input.Lines
+	var consideredLines = d.input.Lines
 	var index = 0
 	var wantedValue string
 	// copy frequency counts
@@ -129,7 +129,7 @@ func reduceDiagnosticLines(lines []string, initialVal string, charIndex int) ([]
 
 // inefficient (iterating over input multiple times) but convenient
 func (d *DayThree) init() {
-	for _, line := range d.base.input.Lines {
+	for _, line := range d.input.Lines {
 		for i, char := range line {
 			if char == 48 {
 				d.zeros[i]++

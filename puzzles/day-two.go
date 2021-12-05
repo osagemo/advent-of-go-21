@@ -11,7 +11,7 @@ import (
 var acceptedDirections = map[string]bool{"forward": true, "up": true, "down": true}
 
 type DayTwo struct {
-	base day
+	day
 	xPos int
 	yPos int
 	aim  int
@@ -22,7 +22,7 @@ func (d *DayTwo) GetPuzzleName() string {
 }
 
 func (d *DayTwo) PartOne() string {
-	for _, command := range d.base.input.Lines {
+	for _, command := range d.input.Lines {
 		d.parseCommand(command, 1)
 	}
 
@@ -33,7 +33,7 @@ func (d *DayTwo) PartOne() string {
 func (d *DayTwo) PartTwo() string {
 	d.init() // reset
 
-	for _, command := range d.base.input.Lines {
+	for _, command := range d.input.Lines {
 		d.parseCommand(command, 2)
 	}
 

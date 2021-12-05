@@ -7,13 +7,13 @@ import (
 )
 
 type DayOne struct {
-	base         day
+	day
 	measurements []int
 }
 
 // inefficient but convenient
 func (d *DayOne) init() {
-	for _, line := range d.base.input.Lines {
+	for _, line := range d.input.Lines {
 		measurement, err := strconv.Atoi(line)
 		if err != nil {
 			panic(err)
