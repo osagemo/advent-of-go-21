@@ -12,7 +12,7 @@ type DayThree struct {
 	ones  [12]int
 }
 
-func (d *DayThree) GetPuzzleName() string {
+func (DayThree) GetPuzzleName() string {
 	return "Day 3: Binary Diagnostic"
 }
 

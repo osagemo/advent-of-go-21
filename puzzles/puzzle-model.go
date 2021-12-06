@@ -21,6 +21,8 @@ type Day interface {
 	PartTwo() string
 }
 
+// improvements:
+// --Separate days into packages instead, then we can avoid using methods for everything due to fear of polluting package scope
 func NewDay(dayNum int) Day {
 	base := day{dayNum, input.GetInput(dayNum), time.Time{}}
 	var day Day

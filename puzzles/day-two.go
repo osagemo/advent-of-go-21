@@ -6,48 +6,48 @@ import (
 	"strings"
 )
 
-// I wanted to use Enums but had a hard time wrapping my head around golangs version of them..
-// move out of global scope? to init function?
-var acceptedDirections = map[string]bool{"forward": true, "up": true, "down": true}
-
 type DayTwo struct {
 	day
+	acceptedDirections map[string]bool
+}
+
+type subMarineState struct {
 	xPos int
 	yPos int
 	aim  int
 }
 
-func (d *DayTwo) GetPuzzleName() string {
+func (DayTwo) GetPuzzleName() string {
 	return "Day 2: Dive!"
 }
 
-func (d *DayTwo) PartOne() string {
-	for _, command := range d.input.Lines {
-		d.parseCommand(command, 1)
-	}
-
-	solution := fmt.Sprintf("Horizontal position: %d, Depth: %d. Solution: %d", d.xPos, d.yPos, d.xPos*d.yPos)
-	return solution
-}
-
-func (d *DayTwo) PartTwo() string {
-	d.init() // reset
-
-	for _, command := range d.input.Lines {
-		d.parseCommand(command, 2)
-	}
-
-	solution := fmt.Sprintf("Horizontal position: %d, Depth: %d. Solution: %d", d.xPos, d.yPos, d.xPos*d.yPos)
-	return solution
-}
-
 func (d *DayTwo) init() {
-	d.xPos = 0
-	d.yPos = 0
-	d.aim = 0
+	d.acceptedDirections = map[string]bool{"forward": true, "up": true, "down": true}
 }
 
-func (d *DayTwo) parseCommand(command string, part int) {
+func (d DayTwo) PartOne() string {
+	sub := subMarineState{0, 0, 0}
+
+	for _, command := range d.input.Lines {
+		sub = d.parseCommand(sub, command, 1)
+	}
+
+	solution := fmt.Sprintf("Horizontal position: %d, Depth: %d. Solution: %d", sub.xPos, sub.yPos, sub.xPos*sub.yPos)
+	return solution
+}
+
+func (d DayTwo) PartTwo() string {
+	sub := subMarineState{0, 0, 0}
+
+	for _, command := range d.input.Lines {
+		sub = d.parseCommand(sub, command, 2)
+	}
+
+	solution := fmt.Sprintf("Horizontal position: %d, Depth: %d. Solution: %d", sub.xPos, sub.yPos, sub.xPos*sub.yPos)
+	return solution
+}
+
+func (d DayTwo) parseCommand(initialState subMarineState, command string, part int) (newState subMarineState) {
 	parts := strings.Split(command, " ")
 
 	if len(parts) != 2 {
@@ -60,38 +60,41 @@ func (d *DayTwo) parseCommand(command string, part int) {
 	}
 
 	direction := parts[0]
-	if !acceptedDirections[direction] {
+	if !d.acceptedDirections[direction] {
 		panic(fmt.Sprintf("unrecognized direction: %s", command))
 	}
 
-	d.move(direction, amount, part)
+	newState = initialState.move(direction, amount, part)
+	return newState
 }
 
 // Hard-coded strings are used instead of enum but validated against acceptedDirections map
-func (d *DayTwo) move(direction string, amount int, part int) {
+func (state subMarineState) move(direction string, amount int, part int) subMarineState {
 	switch direction {
 	case "forward":
-		d.changeX(amount, part)
+		state.changeX(amount, part)
 	case "up":
-		d.changeY(-amount, part)
+		state.changeY(-amount, part)
 	case "down":
-		d.changeY(amount, part)
+		state.changeY(amount, part)
+	}
+
+	return state
+}
+
+func (state *subMarineState) changeX(amount int, part int) {
+	if part == 1 {
+		state.xPos += amount
+	} else if part == 2 {
+		state.xPos += amount
+		state.yPos += (state.aim * amount)
 	}
 }
 
-func (d *DayTwo) changeX(amount int, part int) {
+func (state *subMarineState) changeY(amount int, part int) {
 	if part == 1 {
-		d.xPos += amount
+		state.yPos += amount
 	} else if part == 2 {
-		d.xPos += amount
-		d.yPos += (d.aim * amount)
-	}
-}
-
-func (d *DayTwo) changeY(amount int, part int) {
-	if part == 1 {
-		d.yPos += amount
-	} else if part == 2 {
-		d.aim += amount
+		state.aim += amount
 	}
 }

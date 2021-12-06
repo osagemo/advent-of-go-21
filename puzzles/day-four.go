@@ -18,6 +18,14 @@ type DayFour struct {
 	boardsWon              map[int]bool
 }
 
+// improvements:
+// make board struct stored in boards
+// --add boardScore (boardIndexToMarked)
+// --add hasWon (boardsWon) might require boardsWonCount as well though for efficient exit statement
+// parse drawing numbers & "draw" numbers at the same time (could do the same for boards but convienience wins)
+// add sum of all numbers while parsing boards, remove number from sum while drawing number
+// extract funcitons
+
 type boardPosition struct {
 	boardIndex    int
 	boardPosition coordinate
@@ -28,7 +36,7 @@ type coordinate struct {
 	positionY int
 }
 
-func (d *DayFour) GetPuzzleName() string {
+func (DayFour) GetPuzzleName() string {
 	return "Day 4: Giant Squid"
 }
 
@@ -51,13 +59,18 @@ func (d *DayFour) PartTwo() string {
 	return fmt.Sprintf("Solution: %d", scoreOfLosingBoard)
 }
 
+func (d *DayFour) init() {
+	d.parseDrawingNumbers()
+	d.parseBoards()
+}
+
 func (d *DayFour) drawNumber(number int, numberIndex int) bool {
 	matches, found := d.numberToBoardPosition[number]
 	if !found {
 		return false
 	}
 	for _, bp := range matches {
-		d.increase(bp, number)
+		d.increase(bp)
 		if d.allMatch(bp) {
 			d.boardsWon[bp.boardIndex] = true
 			sum := d.calculateSum(bp.boardIndex, numberIndex)
@@ -66,7 +79,7 @@ func (d *DayFour) drawNumber(number int, numberIndex int) bool {
 			}
 			d.lastWinningBoardIndex = bp.boardIndex
 			d.lastWinningNumberIndex = numberIndex
-			// exit condition for to determine which board was last
+			// exit condition to determine which board was last
 			if len(d.boardsWon) == len(d.boards) {
 				return true
 			}
@@ -91,8 +104,7 @@ func (d *DayFour) calculateSum(boardIndex, numberIndex int) int {
 	return unmarkedSum
 }
 
-// temporary passing number for debug
-func (d *DayFour) increase(bp boardPosition, number int) {
+func (d *DayFour) increase(bp boardPosition) {
 	// given 1, 4
 	board := bp.boardIndex
 	x := bp.boardPosition.positionX
@@ -112,11 +124,6 @@ func (d *DayFour) allMatch(b boardPosition) bool {
 }
 
 // init
-func (d *DayFour) init() {
-	d.parseDrawingNumbers()
-	d.parseBoards()
-}
-
 func (d *DayFour) parseDrawingNumbers() {
 	numbers := strings.Split(d.input.Lines[0], ",")
 	for _, char := range numbers {

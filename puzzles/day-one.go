@@ -23,7 +23,7 @@ func (d *DayOne) init() {
 	}
 }
 
-func (d *DayOne) GetPuzzleName() string {
+func (DayOne) GetPuzzleName() string {
 	return "Day 1: Sonar Sweep"
 }
 
