@@ -32,8 +32,8 @@ type boardPosition struct {
 }
 
 type coordinate struct {
-	positionX int
-	positionY int
+	x int
+	y int
 }
 
 func (DayFour) GetPuzzleName() string {
@@ -107,8 +107,8 @@ func (d *DayFour) calculateSum(boardIndex, numberIndex int) int {
 func (d *DayFour) increase(bp boardPosition) {
 	// given 1, 4
 	board := bp.boardIndex
-	x := bp.boardPosition.positionX
-	y := bp.boardPosition.positionY
+	x := bp.boardPosition.x
+	y := bp.boardPosition.y
 	score := d.boardIndexToMarked[board]
 	score[x][0] = score[x][0] + 1
 	score[y][1] = score[y][1] + 1
@@ -117,8 +117,8 @@ func (d *DayFour) increase(bp boardPosition) {
 
 func (d *DayFour) allMatch(b boardPosition) bool {
 	board := b.boardIndex
-	x := b.boardPosition.positionX
-	y := b.boardPosition.positionY
+	x := b.boardPosition.x
+	y := b.boardPosition.y
 
 	return d.boardIndexToMarked[board][x][0] == 5 || d.boardIndexToMarked[board][y][1] == 5
 }

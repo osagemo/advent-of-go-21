@@ -44,6 +44,10 @@ func NewDay(dayNum int) Day {
 		dayFour := new(DayFour)
 		dayFour.day = base
 		day = dayFour
+	case 5:
+		dayFive := new(DayFive)
+		dayFive.day = base
+		day = dayFive
 	}
 
 	day.SetStart(time.Now())
