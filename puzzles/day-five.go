@@ -2,7 +2,6 @@ package puzzles
 
 import (
 	"fmt"
-	"math"
 	"regexp"
 )
 
@@ -70,7 +69,8 @@ func (l line) isVertical() bool {
 }
 
 func (l line) isDiagonal() bool {
-	return math.Abs(float64(l.from.x-l.to.x)) == math.Abs(float64(l.from.y-l.to.y))
+	return absDiffInt(l.from.x, l.to.x) == absDiffInt(l.from.y, l.to.y)
+	// return math.Abs(float64(l.from.x-l.to.x)) == math.Abs(float64(l.from.y-l.to.y))
 }
 
 func (l line) isEven() bool {

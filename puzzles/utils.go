@@ -20,3 +20,10 @@ func parseInt(s string) int {
 	}
 	return i
 }
+
+func absDiffInt(x, y int) int {
+	if x < y {
+		return y - x
+	}
+	return x - y
+}
