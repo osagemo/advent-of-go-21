@@ -7,7 +7,7 @@ import (
 
 type DayFive struct {
 	day
-	lines []line
+	ventLines []line
 }
 
 func (DayFive) GetPuzzleName() string {
@@ -15,44 +15,52 @@ func (DayFive) GetPuzzleName() string {
 }
 
 func (d *DayFive) PartOne() string {
-	coordinateToVentLines := d.mapLines(d.lines, false)
+	coordsCovered := d.getCoordinateFrequencyMap(d.ventLines, false)
 
 	sum := 0
-	for _, v := range coordinateToVentLines {
+	for _, v := range coordsCovered {
 		if v > 1 {
 			sum++
 		}
 	}
 
-	return fmt.Sprintf("Sum of coordinates with more than one line covering it: %d", sum)
-
+	return fmt.Sprintf("Sum of coordinates with more than one vent covering it: %d", sum)
 }
 
 func (d *DayFive) PartTwo() string {
-	coordinateToVentLines := d.mapLines(d.lines, true)
+	coordsCovered := d.getCoordinateFrequencyMap(d.ventLines, true)
 
 	sum := 0
-	for _, v := range coordinateToVentLines {
+	for _, v := range coordsCovered {
 		if v > 1 {
 			sum++
 		}
 	}
 
-	return fmt.Sprintf("Sum of coordinates with more than one line covering it: %d", sum)
+	return fmt.Sprintf("Sum of coordinates with more than one vent covering it: %d", sum)
 }
 
 func (d *DayFive) init() {
-	re := regexp.MustCompile(`^(\d+),(\d+) -> (\d+),(\d+)$`)
 
 	for _, string := range d.input.Lines {
-		if re.MatchString(string) {
-			matches := re.FindStringSubmatch(string)
-			from := coordinate{parseInt(matches[1]), parseInt(matches[2])}
-			to := coordinate{parseInt(matches[3]), parseInt(matches[4])}
-			newLine := line{from, to}
-			d.lines = append(d.lines, newLine)
-		}
+		line := d.parseLine(string)
+		d.ventLines = append(d.ventLines, line)
 	}
+}
+
+func (DayFive) parseLine(s string) line {
+	newLine := line{}
+	re := regexp.MustCompile(`^(\d+),(\d+) -> (\d+),(\d+)$`)
+	if re.MatchString(s) {
+		matches := re.FindStringSubmatch(s)
+		from := coordinate{parseInt(matches[1]), parseInt(matches[2])}
+		to := coordinate{parseInt(matches[3]), parseInt(matches[4])}
+		newLine = line{from, to}
+	} else {
+		panic("invalid input")
+	}
+
+	return newLine
 }
 
 type line struct {
@@ -70,43 +78,38 @@ func (l line) isVertical() bool {
 
 func (l line) isDiagonal() bool {
 	return absDiffInt(l.from.x, l.to.x) == absDiffInt(l.from.y, l.to.y)
-	// return math.Abs(float64(l.from.x-l.to.x)) == math.Abs(float64(l.from.y-l.to.y))
 }
 
 func (l line) isEven() bool {
 	return l.isHorizontal() || l.isVertical()
 }
 
-func (l line) train() []coordinate {
-	train := []coordinate{}
+func (l line) getIncludedCoordinates() []coordinate {
+	coordinateTrain := []coordinate{}
 	if l.isVertical() {
-		var min, max int
+		var min = l.to.x
+		var max = l.from.x
 		if l.from.x < l.to.x {
 			min = l.from.x
 			max = l.to.x
-		} else {
-			min = l.to.x
-			max = l.from.x
 		}
 		for i := min; i <= max; i++ {
-			train = append(train, coordinate{i, l.from.y})
+			coordinateTrain = append(coordinateTrain, coordinate{i, l.from.y})
 		}
-		return train
+		return coordinateTrain
 	}
 
 	if l.isHorizontal() {
-		var min, max int
+		var min = l.to.y
+		var max = l.from.y
 		if l.from.y < l.to.y {
 			min = l.from.y
 			max = l.to.y
-		} else {
-			min = l.to.y
-			max = l.from.y
 		}
 		for i := min; i <= max; i++ {
-			train = append(train, coordinate{l.from.x, i})
+			coordinateTrain = append(coordinateTrain, coordinate{l.from.x, i})
 		}
-		return train
+		return coordinateTrain
 	}
 
 	if l.isDiagonal() {
@@ -120,29 +123,29 @@ func (l line) train() []coordinate {
 
 		y := l.from.y
 		for x := l.from.x; x != l.to.x; x += xDif {
-			train = append(train, coordinate{x, y})
+			coordinateTrain = append(coordinateTrain, coordinate{x, y})
 			y += yDif
 		}
-		train = append(train, coordinate{l.to.x, l.to.y})
+		coordinateTrain = append(coordinateTrain, coordinate{l.to.x, l.to.y})
 	}
 
-	return train
+	return coordinateTrain
 }
 
-func (DayFive) mapLines(lines []line, includeDiagonal bool) map[coordinate]int {
-	lineMap := make(map[coordinate]int)
+func (DayFive) getCoordinateFrequencyMap(lines []line, includeDiagonal bool) map[coordinate]int {
+	coordFrequencies := make(map[coordinate]int)
 	for _, l := range lines {
 		if l.isEven() {
-			for _, coord := range l.train() {
-				lineMap[coord]++
+			for _, coord := range l.getIncludedCoordinates() {
+				coordFrequencies[coord]++
 			}
 		} else if includeDiagonal && l.isDiagonal() {
-			for _, coord := range l.train() {
-				lineMap[coord]++
+			for _, coord := range l.getIncludedCoordinates() {
+				coordFrequencies[coord]++
 			}
 		}
 	}
-	return lineMap
+	return coordFrequencies
 }
 
 func (c *coordinate) String() string {
