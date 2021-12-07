@@ -42,11 +42,13 @@ func printPuzzle(d puzzles.Day) {
 }
 
 func init() {
-	dailyPuzzles = append(dailyPuzzles, puzzles.NewDay(1))
-	dailyPuzzles = append(dailyPuzzles, puzzles.NewDay(2))
-	dailyPuzzles = append(dailyPuzzles, puzzles.NewDay(3))
-	dailyPuzzles = append(dailyPuzzles, puzzles.NewDay(4))
-	dailyPuzzles = append(dailyPuzzles, puzzles.NewDay(5))
+	// dailyPuzzles = append(dailyPuzzles, puzzles.NewDay(1))
+	// dailyPuzzles = append(dailyPuzzles, puzzles.NewDay(2))
+	// dailyPuzzles = append(dailyPuzzles, puzzles.NewDay(3))
+	// dailyPuzzles = append(dailyPuzzles, puzzles.NewDay(4))
+	// dailyPuzzles = append(dailyPuzzles, puzzles.NewDay(5))
+	dailyPuzzles = append(dailyPuzzles, puzzles.NewDay(6))
+	dailyPuzzles = append(dailyPuzzles, puzzles.NewDay(7))
 }
 
 func getTotalAlloc() uint64 {

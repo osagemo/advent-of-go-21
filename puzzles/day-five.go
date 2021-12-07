@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"math"
 	"regexp"
-	"strconv"
 )
 
 type DayFive struct {
@@ -144,14 +143,6 @@ func (DayFive) mapLines(lines []line, includeDiagonal bool) map[coordinate]int {
 		}
 	}
 	return lineMap
-}
-
-func parseInt(s string) int {
-	i, err := strconv.Atoi(s)
-	if err != nil {
-		panic(err)
-	}
-	return i
 }
 
 func (c *coordinate) String() string {

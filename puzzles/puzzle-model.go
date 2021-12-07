@@ -48,6 +48,14 @@ func NewDay(dayNum int) Day {
 		dayFive := new(DayFive)
 		dayFive.day = base
 		day = dayFive
+	case 6:
+		daySix := new(DaySix)
+		daySix.day = base
+		day = daySix
+	case 7:
+		daySeven := new(DaySeven)
+		daySeven.day = base
+		day = daySeven
 	}
 
 	day.SetStart(time.Now())
@@ -62,13 +70,4 @@ func (d *day) GetStart() time.Time {
 
 func (d *day) SetStart(time time.Time) {
 	d.start = time
-}
-
-func contains(s []int, e int) bool {
-	for _, a := range s {
-		if a == e {
-			return true
-		}
-	}
-	return false
 }
