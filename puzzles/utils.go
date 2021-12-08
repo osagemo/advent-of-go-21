@@ -27,3 +27,15 @@ func absDiffInt(x, y int) int {
 	}
 	return x - y
 }
+
+// Is generics possible?
+func getKeys(mymap map[int]int) []int {
+	keys := make([]int, len(mymap))
+
+	i := 0
+	for k := range mymap {
+		keys[i] = k
+		i++
+	}
+	return keys
+}
