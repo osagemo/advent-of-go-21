@@ -60,6 +60,10 @@ func NewDay(dayNum int) Day {
 		dayEight := new(DayEight)
 		dayEight.day = base
 		day = dayEight
+	case 9:
+		dayNine := new(DayNine)
+		dayNine.day = base
+		day = dayNine
 	}
 
 	day.SetStart(time.Now())
