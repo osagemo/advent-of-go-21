@@ -22,7 +22,7 @@ type Day interface {
 }
 
 // improvements:
-// --Separate days into packages instead, then we can avoid using methods for everything due to fear of polluting package scope
+// --Separate days into packages instead? then we can avoid using methods for everything due to fear of polluting package scope
 func NewDay(dayNum int) Day {
 	base := day{dayNum, input.GetInput(dayNum), time.Time{}}
 	var day Day
@@ -64,6 +64,10 @@ func NewDay(dayNum int) Day {
 		dayNine := new(DayNine)
 		dayNine.day = base
 		day = dayNine
+	case 10:
+		dayTen := new(DayTen)
+		dayTen.day = base
+		day = dayTen
 	}
 
 	day.SetStart(time.Now())
