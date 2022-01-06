@@ -7,9 +7,9 @@ import (
 )
 
 type day struct {
-	day   int
-	input input.Input
-	start time.Time
+	dayOfMonth int
+	inputLines []string
+	start      time.Time
 }
 
 type Day interface {

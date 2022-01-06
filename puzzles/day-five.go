@@ -42,7 +42,7 @@ func (d *DayFive) PartTwo() string {
 
 func (d *DayFive) init() {
 
-	for _, string := range d.input.Lines {
+	for _, string := range d.inputLines {
 		line := d.parseLine(string)
 		d.ventLines = append(d.ventLines, line)
 	}

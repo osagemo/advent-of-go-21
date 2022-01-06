@@ -25,7 +25,7 @@ func (DayTen) GetPuzzleName() string {
 }
 
 func (d DayTen) PartOne() string {
-	score := d.getCorruptedScore(d.input.Lines)
+	score := d.getCorruptedScore(d.inputLines)
 	return fmt.Sprintf("Total syntax error score: %d", score)
 }
 
@@ -47,7 +47,7 @@ func (d DayTen) getCorruptedScore(lines []string) int {
 }
 
 func (d DayTen) PartTwo() string {
-	scores := d.getAutoCompleteScores(d.input.Lines)
+	scores := d.getAutoCompleteScores(d.inputLines)
 	sort.Ints(scores)
 	middleScore := scores[len(scores)/2]
 	return fmt.Sprintf("The middle score is %d\n", middleScore)

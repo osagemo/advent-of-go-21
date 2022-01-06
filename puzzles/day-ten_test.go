@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestExample1(t *testing.T) {
+func TestExample10_1(t *testing.T) {
 	wantExpected := ']'
 	wantFound := '}'
 
@@ -24,7 +24,7 @@ func TestExample1(t *testing.T) {
 	}
 }
 
-func TestExample2(t *testing.T) {
+func TestExample10_2(t *testing.T) {
 	wantExpected := ']'
 	wantFound := ')'
 
@@ -69,10 +69,9 @@ func TestCompletionStringExample1(t *testing.T) {
 	}
 }
 
-func TestPartOne(t *testing.T) {
+func Test10_PartOne(t *testing.T) {
 	wantScore := 26397
 	d := DayTen{}
-	d.init()
 	d.init()
 	lines := []string{
 		"[({(<(())[]>[[{[]{<()<>>",
@@ -92,7 +91,7 @@ func TestPartOne(t *testing.T) {
 	}
 }
 
-func TestPartTwo(t *testing.T) {
+func Test10_PartTwo(t *testing.T) {
 	wantScore := 288957
 	d := DayTen{}
 	d.init()

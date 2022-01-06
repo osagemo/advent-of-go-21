@@ -28,7 +28,7 @@ func (d *DayTwo) init() {
 func (d DayTwo) PartOne() string {
 	sub := subMarineState{0, 0, 0}
 
-	for _, command := range d.input.Lines {
+	for _, command := range d.inputLines {
 		sub = d.parseCommand(sub, command, 1)
 	}
 
@@ -39,7 +39,7 @@ func (d DayTwo) PartOne() string {
 func (d DayTwo) PartTwo() string {
 	sub := subMarineState{0, 0, 0}
 
-	for _, command := range d.input.Lines {
+	for _, command := range d.inputLines {
 		sub = d.parseCommand(sub, command, 2)
 	}
 

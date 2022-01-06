@@ -13,7 +13,7 @@ type DayOne struct {
 
 // inefficient but convenient
 func (d *DayOne) init() {
-	for _, line := range d.input.Lines {
+	for _, line := range d.inputLines {
 		measurement, err := strconv.Atoi(line)
 		if err != nil {
 			panic(err)

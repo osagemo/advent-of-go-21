@@ -160,7 +160,7 @@ func (d DayEight) getInitialMappings(signalPatterns []segmentPattern) map[int]se
 }
 
 func (d *DayEight) init() {
-	for _, line := range d.input.Lines {
+	for _, line := range d.inputLines {
 		parts := strings.Split(line, "|")
 		if len(parts) != 2 {
 			panic("bad input")

@@ -16,9 +16,9 @@ type DayNine struct {
 }
 
 type point struct {
-	x      int
-	y      int
-	height int
+	x     int
+	y     int
+	value int
 }
 
 func (p point) getCoordinate() coordinate {
@@ -34,7 +34,7 @@ func (d DayNine) PartOne() string {
 	sumOfRiskLevels := 0
 
 	for _, point := range lowPoints {
-		sumOfRiskLevels += (point.height + 1)
+		sumOfRiskLevels += (point.value + 1)
 	}
 	return fmt.Sprintf("The sum of risk levels for all low points is: %d", sumOfRiskLevels)
 }
@@ -137,7 +137,7 @@ func (d DayNine) safeGetCellValue(x int, y int) (int, error) {
 }
 
 func (d *DayNine) init() {
-	for _, line := range d.input.Lines {
+	for _, line := range d.inputLines {
 		row := []int{}
 		for _, char := range line {
 			n, _ := strconv.Atoi(string(char))

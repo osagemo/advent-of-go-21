@@ -125,7 +125,7 @@ func (d *DayFour) allMatch(b boardPosition) bool {
 
 // init
 func (d *DayFour) parseDrawingNumbers() {
-	numbers := strings.Split(d.input.Lines[0], ",")
+	numbers := strings.Split(d.inputLines[0], ",")
 	for _, char := range numbers {
 		number, _ := strconv.Atoi(string(char))
 		d.drawingNumbers = append(d.drawingNumbers, number)
@@ -137,7 +137,7 @@ func (d *DayFour) parseBoards() {
 	d.numberToBoardPosition = make(map[int][]boardPosition)
 
 	var lineIndex = 0
-	for _, line := range d.input.Lines[1:] {
+	for _, line := range d.inputLines[1:] {
 		for i, char := range strings.Fields(line) {
 			s := string(char)
 			n, _ := strconv.Atoi(s)

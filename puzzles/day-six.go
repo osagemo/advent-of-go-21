@@ -85,7 +85,7 @@ func (DaySix) increaseCounts(ageCount map[int]int) map[int]int {
 }
 
 func (d *DaySix) init() {
-	fishes := d.input.Lines[0]
+	fishes := d.inputLines[0]
 	var initialFishes []*fish
 	if len(fishes) <= 0 {
 		panic("no fishies")

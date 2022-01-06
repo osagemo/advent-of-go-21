@@ -57,7 +57,7 @@ func (d DaySeven) costForAllCrabsToPosition(destination int, costFunction func(i
 }
 
 func (d *DaySeven) init() {
-	crabs := d.input.Lines[0]
+	crabs := d.inputLines[0]
 	if len(crabs) <= 0 {
 		panic("no crabs")
 	}

@@ -9,14 +9,9 @@ import (
 
 var dayMap map[int]string
 
-type Input struct {
-	Lines  []string
-	Length int
-}
-
 // Reads whole file to memory to simplify processing since expected input of AoC is never large
 // Should probably return error instead of panicing, but i wanted to test it
-func GetInput(day int) Input {
+func GetInput(day int) []string {
 	path, err := getPath(day)
 	check(err)
 
@@ -33,12 +28,7 @@ func GetInput(day int) Input {
 		}
 	}
 
-	inp := Input{
-		Lines:  lines,
-		Length: len(lines),
-	}
-
-	return inp
+	return lines
 }
 
 func getPath(day int) (string, error) {
