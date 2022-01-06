@@ -68,6 +68,10 @@ func NewDay(dayNum int) Day {
 		dayTen := new(DayTen)
 		dayTen.day = base
 		day = dayTen
+	case 11:
+		dayEleven := new(DayEleven)
+		dayEleven.day = base
+		day = dayEleven
 	}
 
 	day.SetStart(time.Now())
