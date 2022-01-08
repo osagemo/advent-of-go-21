@@ -10,6 +10,10 @@ type DayEleven struct {
 	grid octoGrid
 }
 
+func (DayEleven) GetPuzzleName() string {
+	return "Day 11: Dumbo Octopus"
+}
+
 type octoGrid struct {
 	grid               [][]*int
 	acceptedDirections []coordinate
@@ -17,27 +21,25 @@ type octoGrid struct {
 	firstFullFlash     int
 }
 
-type octopus struct {
-	energyLevel *int
-	coord       coordinate
-}
-
-func (g octoGrid) String() string {
-	printString := ""
-	for _, row := range g.grid {
-		for i, n := range row {
-			printString += fmt.Sprintf("%v", *n)
-			if i != len(row)-1 {
-				printString += ", "
-			}
-		}
-		printString += "\n"
+func (d *DayEleven) init() {
+	// all adjecent directions accepted
+	acceptedDirections := []coordinate{
+		{-1, 0}, {0, -1}, {1, 0}, {0, 1}, {1, 1}, {-1, -1}, {-1, 1}, {1, -1},
 	}
-	return printString
-}
 
-func (DayEleven) GetPuzzleName() string {
-	return "Day 11: Dumbo Octopus"
+	// init grid
+	var grid = [][]*int{}
+
+	for _, line := range d.inputLines {
+		row := []*int{}
+		for _, char := range line {
+			s := string(char)
+			n, _ := strconv.Atoi(s)
+			row = append(row, &n)
+		}
+		grid = append(grid, row)
+	}
+	d.grid = octoGrid{grid, acceptedDirections, 0, 0}
 }
 
 func (d DayEleven) PartOne() string {
@@ -46,7 +48,7 @@ func (d DayEleven) PartOne() string {
 }
 
 func (d DayEleven) PartTwo() string {
-	d.init()
+	d.init() // reset pointers
 	d.grid.incrementEnergyLevels(1000, true)
 	return fmt.Sprintf("after %v steps, all octopi flashed", d.grid.firstFullFlash)
 }
@@ -86,38 +88,37 @@ func (g *octoGrid) triggerFlashes() int {
 
 // triggerFlash adds 1 to all neighbouring values, and keeps triggering flashes if they go above 9
 func (g *octoGrid) triggerFlash(coord coordinate, flashed map[coordinate]bool) {
-	stack := []coordinate{coord}
+	coordinatesToFlash := []coordinate{coord}
 
-	for len(stack) > 0 {
-		// Pop
-		n := len(stack) - 1
-		octopus := stack[n]
-		stack = stack[:n]
+	for len(coordinatesToFlash) > 0 {
+		flashCandidate := coordinatesToFlash[0]
+		coordinatesToFlash = coordinatesToFlash[1:]
 
-		if flashed[octopus] {
+		if flashed[flashCandidate] {
 			continue
 		}
 
-		flashed[octopus] = true
-		stack = append(stack, g.incrementNeighbours(octopus)...)
+		flashed[flashCandidate] = true
+		coordinatesToFlash = append(coordinatesToFlash, g.incrementNeighbours(flashCandidate)...)
 	}
 }
 
 // incrementNeighbours adds 1 to all neighbouring values from coordinate and returns all neighbours that will flash because of it
 func (g *octoGrid) incrementNeighbours(coord coordinate) []coordinate {
-	willFlash := []coordinate{}
+	newFlashCandidates := []coordinate{}
 	for _, dif := range g.acceptedDirections {
 		adjacentCoord := coordinate{coord.x + dif.x, coord.y + dif.y}
 		if g.outOfBounds(adjacentCoord) {
 			continue
 		}
+
 		neighbour := g.grid[adjacentCoord.y][adjacentCoord.x]
-		*neighbour++
+		*neighbour++ // increment
 		if *neighbour > 9 {
-			willFlash = append(willFlash, adjacentCoord)
+			newFlashCandidates = append(newFlashCandidates, adjacentCoord)
 		}
 	}
-	return willFlash
+	return newFlashCandidates
 }
 
 func (g *octoGrid) resetFlashed() {
@@ -132,25 +133,4 @@ func (g *octoGrid) resetFlashed() {
 
 func (g octoGrid) outOfBounds(coord coordinate) bool {
 	return coord.x > len(g.grid[0])-1 || coord.x < 0 || coord.y > len(g.grid)-1 || coord.y < 0
-}
-
-func (d *DayEleven) init() {
-	// all adjecent directions accepted
-	acceptedDirections := []coordinate{
-		{-1, 0}, {0, -1}, {1, 0}, {0, 1}, {1, 1}, {-1, -1}, {-1, 1}, {1, -1},
-	}
-
-	// init grid
-	var grid = [][]*int{}
-
-	for _, line := range d.inputLines {
-		row := []*int{}
-		for _, char := range line {
-			s := string(char)
-			n, _ := strconv.Atoi(s)
-			row = append(row, &n)
-		}
-		grid = append(grid, row)
-	}
-	d.grid = octoGrid{grid, acceptedDirections, 0, 0}
 }

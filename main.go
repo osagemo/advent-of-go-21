@@ -50,8 +50,9 @@ func init() {
 	// dailyPuzzles = append(dailyPuzzles, puzzles.NewDay(6))
 	// dailyPuzzles = append(dailyPuzzles, puzzles.NewDay(7))
 	// dailyPuzzles = append(dailyPuzzles, puzzles.NewDay(8))
-	dailyPuzzles = append(dailyPuzzles, puzzles.NewDay(9))
-	dailyPuzzles = append(dailyPuzzles, puzzles.NewDay(10))
+	// dailyPuzzles = append(dailyPuzzles, puzzles.NewDay(9))
+	// dailyPuzzles = append(dailyPuzzles, puzzles.NewDay(10))
+	dailyPuzzles = append(dailyPuzzles, puzzles.NewDay(11))
 }
 
 func getTotalAlloc() uint64 {

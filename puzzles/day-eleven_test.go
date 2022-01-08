@@ -29,21 +29,19 @@ func TestExample11_1(t *testing.T) {
 	d := DayEleven{}
 	d.day = day{inputLines: exampleInput}
 	d.init()
-	// fmt.Println(d.grid)
 	wantNumFlashes := 9
+
 	d.grid.incrementEnergyLevels(1, false)
 	if d.grid.numFlashes != wantNumFlashes {
 		t.Fatalf("expected %d flashes but got %d", wantNumFlashes, d.grid.numFlashes)
 	}
-	// fmt.Println(d.grid)
 }
 
 func TestExample11_2(t *testing.T) {
 	d := init11Test()
-	// fmt.Println(d.grid)
-	d.grid.incrementEnergyLevels(100, false)
-	// fmt.Println(d.grid)
 	wantNumFlashes := 1656
+
+	d.grid.incrementEnergyLevels(100, false)
 	if d.grid.numFlashes != wantNumFlashes {
 		t.Fatalf("exptected %d flashes but got %d", wantNumFlashes, d.grid.numFlashes)
 	}
@@ -51,9 +49,9 @@ func TestExample11_2(t *testing.T) {
 
 func TestExample11_3(t *testing.T) {
 	d := init11Test()
-	d.grid.incrementEnergyLevels(1000, true)
-
 	wantFirstFullFlashAt := 195
+
+	d.grid.incrementEnergyLevels(1000, true)
 	if d.grid.firstFullFlash != wantFirstFullFlashAt {
 		t.Fatalf("expected first full flash at %d, got at %d", wantFirstFullFlashAt, d.grid.firstFullFlash)
 	}
